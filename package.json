@@ -6,7 +6,6 @@
   "scripts": {
     "kafka-native-compose": "docker compose -f kafka-native-compose.yml up -d && node test-kafka-native-compose.js || docker compose -f kafka-native-compose.yml down",
     "kafka-native-schema-registry-compose": "docker compose -f kafka-native-cp-schema-registry.yml up -d && node test-kafka-native-cp-schema-registry-compose.js || docker compose -f kafka-native-cp-schema-registry.yml down",
-    "kafka-native-karapace-compose": "docker compose -f kafka-native-aivenoy-karapace.yml up -d && node test-kafka-native-karapace.js || docker compose -f kafka-native-aivenoy-karapace.yml down",
     "test-containers-with-cp-kafka": "node test-containers-with-cp-kafka.js",
     "test-containers-with-cp-kafka-cp-schema": "node test-containers-with-cp-kafka-cp-schema.js"
     

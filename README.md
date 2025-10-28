@@ -26,7 +26,6 @@ pnpm install
 - `helpers/test-schema-registry.js` – Avro schema registration helper with readiness polling and cleanup.
 - `kafka-native-compose.yml` – Single Apache Kafka (KRaft) broker.
 - `kafka-native-cp-schema-registry.yml` – Kafka broker + Confluent Schema Registry.
-- `kafka-native-aivenoy-karapace.yml` – Kafka broker + Karapace Schema Registry.
 - `test-*.js` – ESM scripts that exercise the helpers against the corresponding environment.
 - `test-containers-with-*.js` – Programmatic Testcontainers variants for native Kafka and Confluent images.
 
@@ -36,31 +35,12 @@ pnpm install
 | --- | --- | --- |
 | `pnpm kafka-native-compose` | Starts `kafka-native-compose.yml` then runs `test-kafka-native-compose.js`. | Broker exposed on `localhost:9092`. |
 | `pnpm kafka-native-schema-registry-compose` | Starts `kafka-native-cp-schema-registry.yml` then runs `test-kafka-native-cp-schema-registry-compose.js`. | Broker on `localhost:29092`, Schema Registry on `localhost:8081`. |
-| `pnpm kafka-native-karapace-compose` | Starts `kafka-native-aivenoy-karapace.yml` then runs `test-kafka-native-karapace.js`. | Same ports as above using Karapace. |
 
 > **Heads-up:** The compose commands only tear down the stack when the Node.js smoke test fails. After a successful run, clean up manually:
 >
 > ```bash
 > docker compose -f <compose-file>.yml down
 > ```
-
-### Manual Execution
-
-For more control, run the steps yourself. Example for Karapace:
-
-```bash
-docker compose -f kafka-native-aivenoy-karapace.yml up -d
-node test-kafka-native-karapace.js
-docker compose -f kafka-native-aivenoy-karapace.yml down
-```
-
-Monitor service readiness with:
-
-```bash
-docker compose -f kafka-native-aivenoy-karapace.yml logs -f schema-registry
-```
-
-The schema registry helper retries for up to 60 seconds; if it still fails, inspect the container logs for bootstrap errors.
 
 ## Testcontainers Scenarios
 
