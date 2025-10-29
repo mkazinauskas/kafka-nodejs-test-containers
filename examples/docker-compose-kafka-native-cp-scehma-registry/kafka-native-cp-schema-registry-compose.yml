@@ -1,6 +1,14 @@
 name: kafka-native-cp-schema-registry
 
 services:
+  healthcheck: #For GHA only
+    image: busybox
+    depends_on:
+      broker:
+        condition: service_healthy
+      schema-registry:
+        condition: service_healthy
+
   broker:
     image: apache/kafka-native:3.8.1
     container_name: broker
