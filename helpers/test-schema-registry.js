@@ -45,6 +45,7 @@ async function fetchJson(url, options = {}) {
 }
 
 export default async function testSchemaRegistry(baseUrl) {
+  console.log("Testing Schema Registry:", baseUrl);
   await waitForSchemaRegistry(baseUrl);
 
   const registerUrl = `${baseUrl}/subjects/${SUBJECT}/versions`;
@@ -85,5 +86,5 @@ export default async function testSchemaRegistry(baseUrl) {
     }
   }
 
-  console.log("Successfully validated Schema Registry:", baseUrl);
+  console.log("Successfully tested Schema Registry:", baseUrl);
 }

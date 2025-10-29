@@ -5,7 +5,8 @@ const TOPIC_NAME = "test-topic";
 const TEST_MESSAGE = "test message";
 
 export default async function testBroker(brokers) {
-  console.log("Connecting to Kafka brokers:", brokers);
+  console.log("Testing Kafka Brokers:", brokers);
+
   const kafka = new Kafka({ logLevel: logLevel.NOTHING, brokers });
 
   const producer = kafka.producer();
@@ -30,5 +31,5 @@ export default async function testBroker(brokers) {
   await consumer.disconnect();
   await producer.disconnect();
 
-  console.log("Successfully connected to Kafka broker:", brokers);
+  console.log("Successfully tested Kafka Brokers:", brokers);
 }
