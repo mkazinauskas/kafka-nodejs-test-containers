@@ -24,17 +24,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'pnpm'
-          cache-dependency-path: pnpm-lock.yaml
-
       - name: Enable pnpm via Corepack
         run: |
           corepack enable
           corepack prepare pnpm@9.6.0 --activate
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.6.0
 
       - name: Increase vm.max_map_count
         run: sudo sysctl -w vm.max_map_count=262144
