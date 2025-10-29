@@ -62,7 +62,7 @@ These scripts rely on `@testcontainers/kafka` and `testcontainers` (installed vi
 
 Pull requests and pushes to `main` trigger the `CI` GitHub Actions workflow (`.github/workflows/ci.yml`). The workflow:
 
-- Provisions Node 24 with pnpm 9.6.0.
+- Provisions Node 24 and activates pnpm 9.6.0 via Corepack.
 - Runs each pnpm script (`kafka-native-compose`, `kafka-native-schema-registry-compose`, `test-containers-with-cp-kafka`, `test-containers-with-cp-kafka-cp-schema`) in parallel matrix jobs.
 - Executes every job inside Docker on Ubuntu runners, adjusting kernel limits for Kafka and disabling Testcontainers’ Ryuk/health checks for consistency.
 

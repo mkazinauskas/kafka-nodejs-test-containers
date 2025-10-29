@@ -16,6 +16,7 @@ jobs:
         script:
           - kafka-native-compose
           - kafka-native-schema-registry-compose
+          - cp-kafka-cp-schema-registry-compose
           - test-containers-with-cp-kafka
           - test-containers-with-cp-kafka-cp-schema
 
@@ -30,10 +31,10 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: pnpm-lock.yaml
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 9.6.0
+      - name: Enable pnpm via Corepack
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.6.0 --activate
 
       - name: Increase vm.max_map_count
         run: sudo sysctl -w vm.max_map_count=262144
