@@ -5,11 +5,19 @@
   "type": "module",
   "scripts": {
     "test-containers-with-cp-kafka": "node examples/test-containers-cp-kafka/test-containers-with-cp-kafka.js",
+    "test-containers-with-cp-kafka-logs": "pnpm -v",
+
     "test-containers-with-cp-kafka-cp-schema": "node examples/test-containers-cp-kafka-cp-schema/test-containers-with-cp-kafka-cp-schema.js",
+    "test-containers-with-cp-kafka-cp-schema-logs": "pnpm -v",
 
     "kafka-native-compose": "docker compose -f examples/docker-compose-kafka-native/kafka-native-compose.yml up -d && node examples/docker-compose-kafka-native/test-kafka-native-compose.js && docker compose -f examples/docker-compose-kafka-native/kafka-native-compose.yml down",
+    "kafka-native-compose-logs": "docker compose -f examples/docker-compose-kafka-native/kafka-native-compose.yml logs",
+
     "kafka-native-schema-registry-compose": "docker compose -f examples/docker-compose-kafka-native-cp-scehma-registry/kafka-native-cp-schema-registry-compose.yml up -d && node examples/docker-compose-kafka-native-cp-scehma-registry/test-kafka-native-cp-schema-registry-compose.js && docker compose -f examples/docker-compose-kafka-native-cp-scehma-registry/kafka-native-cp-schema-registry-compose.yml down",
+    "kafka-native-schema-registry-compose-logs": "docker compose -f examples/docker-compose-kafka-native-cp-scehma-registry/kafka-native-cp-schema-registry-compose.yml logs",
+
     "cp-kafka-cp-schema-registry-compose": "docker compose -f examples/docker-compose-cp-kafka-cp-schema-registry/cp-kafka-cp-schema-registry-compose.yml up -d && node examples/docker-compose-cp-kafka-cp-schema-registry/test-cp-kafka-cp-schema-registry-compose.js && docker compose -f examples/docker-compose-cp-kafka-cp-schema-registry/cp-kafka-cp-schema-registry-compose.yml down",
+    "cp-kafka-cp-schema-registry-compose-logs": "docker compose -f examples/docker-compose-cp-kafka-cp-schema-registry/cp-kafka-cp-schema-registry-compose.yml logs",
         
     "test": "pnpm kafka-native-compose && pnpm kafka-native-schema-registry-compose && pnpm cp-kafka-cp-schema-registry-compose && pnpm test-containers-with-cp-kafka && pnpm test-containers-with-cp-kafka-cp-schema"
   },
