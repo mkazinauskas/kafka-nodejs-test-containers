@@ -1,5 +1,5 @@
 import { KafkaContainer } from "@testcontainers/kafka";
-import testBroker from "./helpers/test-broker.js";
+import testBroker from "../../helpers/test-broker.js";
 
 const kafkaContainer = await new KafkaContainer("confluentinc/cp-kafka:8.1.0")
   .withKraft()

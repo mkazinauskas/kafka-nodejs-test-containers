@@ -1,8 +1,8 @@
 import { KafkaContainer } from "@testcontainers/kafka";
-import testBroker from "./helpers/test-broker.js";
+import testBroker from "../../helpers/test-broker.js";
 import { GenericContainer } from "testcontainers";
 import { Network } from "testcontainers";
-import testSchemaRegistry from "./helpers/test-schema-registry.js";
+import testSchemaRegistry from "../../helpers/test-schema-registry.js";
 
 const network = await new Network().start();
 

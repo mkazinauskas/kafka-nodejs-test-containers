@@ -1,0 +1,57 @@
+name: cp-kafka-cp-schema-registry
+services:
+  broker:
+    image: confluentinc/cp-kafka:8.1.0
+    container_name: broker
+    profiles:
+      - kafka
+    ports:
+      - '9092:9092'
+      - '29092:29092'
+    healthcheck:
+      test: ['CMD-SHELL', 'ub kafka-ready -b localhost:9092 1 1']
+      interval: 1s
+      timeout: 2s
+      retries: 60
+      start_period: 1s
+      start_interval: 1s
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@broker:29093'
+      KAFKA_LISTENERS: 'PLAINTEXT://broker:29092,CONTROLLER://broker:29093,PLAINTEXT_HOST://0.0.0.0:9092'
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
+      # Replace CLUSTER_ID with a unique base64 UUID using "bin/kafka-storage.sh random-uuid"
+      # See https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-storage-sh
+      CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2QZ'
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:8.1.0
+    hostname: schema-registry
+    container_name: schema-registry
+    profiles:
+      - kafka
+    depends_on:
+      broker:
+        condition: service_healthy
+    ports:
+      - '8081:8081'
+    healthcheck:
+      test: ['CMD-SHELL', 'ub sr-ready schema-registry 8081 1']
+      interval: 1s
+      timeout: 2s
+      retries: 60
+      start_period: 1s
+      start_interval: 1s
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
+      SCHEMA_REGISTRY_LISTENERS: 'http://0.0.0.0:8081'
