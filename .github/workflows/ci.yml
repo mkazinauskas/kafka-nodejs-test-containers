@@ -45,3 +45,7 @@ jobs:
           TESTCONTAINERS_RYUK_DISABLED: 'true'
           TESTCONTAINERS_CHECKS_DISABLE: 'true'
         run: pnpm run ${{ matrix.script }}
+
+      - name: Show logs
+        if: failure()
+        run: docker logs $(docker ps -q)
