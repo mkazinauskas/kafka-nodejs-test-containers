@@ -35,7 +35,7 @@ jobs:
           version: 9.6.0
 
       - name: Increase vm.max_map_count
-        run: sudo sysctl -w vm.max_map_count=262144
+        run: sudo sysctl -w vm.max_map_count=26214444
 
       - name: Install dependencies
         run: pnpm install
