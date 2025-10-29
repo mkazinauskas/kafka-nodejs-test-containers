@@ -34,7 +34,7 @@ pnpm install
 | Script | What it does | Notes |
 | --- | --- | --- |
 | `pnpm kafka-native-compose` | Spins up `examples/docker-compose-kafka-native/kafka-native-compose.yml`, runs the smoke test, and always tears the stack down. | Broker exposed on `localhost:9092`. |
-| `pnpm kafka-native-schema-registry-compose` | Runs `examples/docker-compose-kafka-native-cp-scehma-registry/kafka-native-cp-schema-registry.yml` and validates broker + Confluent Schema Registry. | Broker on `localhost:29092`, Schema Registry on `localhost:8081`. |
+| `pnpm kafka-native-schema-registry-compose` | Runs `examples/docker-compose-kafka-native-cp-scehma-registry/kafka-native-cp-schema-registry.yml` and validates broker + Confluent Schema Registry. | Broker on `localhost:29092`, Schema Registry on `localhost:8081`; `_schemas` topic replication factor forced to `1` so the Confluent registry starts cleanly on single-broker runners. |
 | `docker compose --profile kafka -f examples/docker-compose-cp-kafka-cp-schema-registry/cp-kafka-cp-schema-registry-compose.yml up` | Confluent Platform Kafka + Schema Registry with built-in health checks. | Use `--profile kafka` or remove the profile keys. Pair with `node examples/docker-compose-cp-kafka-cp-schema-registry/test-cp-kafka-cp-schema-registry-compose.js`. |
 
 > **Heads-up:** The compose commands only tear down the stack when the Node.js smoke test fails. After a successful run, clean up manually:
