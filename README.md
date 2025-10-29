@@ -48,7 +48,7 @@ pnpm install
 When you prefer ephemeral containers managed directly from Node:
 
 - `node examples/test-containers-cp-kafka/test-containers-with-cp-kafka.js`
-- `node examples/test-containers-cp-kafka-co-schema/test-containers-with-cp-kafka-cp-schema.js`
+- `node examples/test-containers-cp-kafka-cp-schema/test-containers-with-cp-kafka-cp-schema.js`
 
 These scripts rely on `@testcontainers/kafka` and `testcontainers` (installed via `pnpm`). The native variant demonstrates the new `await using` disposal syntax, so keep Node 22+ (Node 24 via mise) to avoid syntax errors.
 
