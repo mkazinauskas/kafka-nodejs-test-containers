@@ -1,6 +1,14 @@
 name: cp-kafka-cp-schema-registry
 
 services:
+  healthcheck: #For GHA only
+    image: busybox
+    depends_on:
+      broker:
+        condition: service_healthy
+      schema-registry:
+        condition: service_healthy
+
   broker:
     image: confluentinc/cp-kafka:8.1.0
     container_name: broker

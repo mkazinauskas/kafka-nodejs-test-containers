@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Run ${{ matrix.script }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        script:
+          - kafka-native-compose
+          - kafka-native-schema-registry-compose
+          - cp-kafka-cp-schema-registry-compose
+          - test-containers-with-cp-kafka
+          - test-containers-with-cp-kafka-cp-schema
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Enable pnpm via Corepack
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.6.0 --activate
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.6.0
+
+      - name: Increase vm.max_map_count
+        run: sudo sysctl -w vm.max_map_count=262144
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run ${{ matrix.script }}
+        env:
+          TESTCONTAINERS_RYUK_DISABLED: 'true'
+          TESTCONTAINERS_CHECKS_DISABLE: 'true'
+        run: pnpm run ${{ matrix.script }}
+
+      - name: Show ${{ matrix.script }} logs
+        if: failure()
+        env:
+          TESTCONTAINERS_RYUK_DISABLED: 'true'
+          TESTCONTAINERS_CHECKS_DISABLE: 'true'
+        run: pnpm run ${{ matrix.script }}-logs

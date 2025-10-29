@@ -1,9 +1,22 @@
 name: kafka-native
 
 services:
+  healthcheck: #For GHA only
+    image: busybox
+    depends_on:
+      broker:
+        condition: service_healthy
+
   broker:
     image: apache/kafka-native:3.8.1
     container_name: broker
+    healthcheck:
+      test: ['CMD-SHELL', 'nc -z localhost 9092 || exit -1']
+      interval: 1s
+      timeout: 2s
+      retries: 60
+      start_period: 1s
+      start_interval: 1s
     ports:
       - 9092:9092
     environment:
