@@ -58,6 +58,14 @@ These scripts rely on `@testcontainers/kafka` and `testcontainers` (installed vi
 - **Port conflicts** – All scenarios expose ports `9092`, `29092`, and `8081`. Stop other services or adjust the compose files before running.
 - **Unterminated compose stacks** – Run `docker compose -f <file> down -v` to remove leftover containers and volumes.
 
+## Continuous Integration
+
+Pull requests and pushes to `main` trigger the `CI` GitHub Actions workflow (`.github/workflows/ci.yml`). The workflow:
+
+- Provisions Node 24 with pnpm 9.6.0.
+- Runs each pnpm script (`kafka-native-compose`, `kafka-native-schema-registry-compose`, `test-containers-with-cp-kafka`, `test-containers-with-cp-kafka-cp-schema`) in parallel matrix jobs.
+- Executes every job inside Docker on Ubuntu runners, adjusting kernel limits for Kafka and disabling Testcontainers’ Ryuk/health checks for consistency.
+
 ## Next Steps
 
 - Extend the helpers with additional assertions (e.g., compatibility settings, tombstone handling).
