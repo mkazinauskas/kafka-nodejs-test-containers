@@ -24,17 +24,18 @@ pnpm install
 
 - `helpers/test-broker.js` – KafkaJS helper that publishes and consumes a test message.
 - `helpers/test-schema-registry.js` – Avro schema registration helper with readiness polling and cleanup.
-- `kafka-native-compose.yml` – Single Apache Kafka (KRaft) broker.
-- `kafka-native-cp-schema-registry.yml` – Kafka broker + Confluent Schema Registry.
-- `test-*.js` – ESM scripts that exercise the helpers against the corresponding environment.
-- `test-containers-with-*.js` – Programmatic Testcontainers variants for native Kafka and Confluent images.
+- `examples/docker-compose-kafka-native/*` – Apache Kafka (KRaft) compose stack + smoke test.
+- `examples/docker-compose-kafka-native-cp-scehma-registry/*` – Kafka + Confluent Schema Registry stack.
+- `examples/docker-compose-cp-kafka-cp-schema-registry/*` – Confluent Platform Kafka + Schema Registry stack.
+- `examples/test-containers-*/*` – Programmatic Testcontainers variants for Kafka-only and Kafka+Schema Registry.
 
 ## Docker Compose Scenarios
 
 | Script | What it does | Notes |
 | --- | --- | --- |
-| `pnpm kafka-native-compose` | Starts `kafka-native-compose.yml` then runs `test-kafka-native-compose.js`. | Broker exposed on `localhost:9092`. |
-| `pnpm kafka-native-schema-registry-compose` | Starts `kafka-native-cp-schema-registry.yml` then runs `test-kafka-native-cp-schema-registry-compose.js`. | Broker on `localhost:29092`, Schema Registry on `localhost:8081`. |
+| `pnpm kafka-native-compose` | Spins up `examples/docker-compose-kafka-native/kafka-native-compose.yml`, runs the smoke test, and always tears the stack down. | Broker exposed on `localhost:9092`. |
+| `pnpm kafka-native-schema-registry-compose` | Runs `examples/docker-compose-kafka-native-cp-scehma-registry/kafka-native-cp-schema-registry.yml` and validates broker + Confluent Schema Registry. | Broker on `localhost:29092`, Schema Registry on `localhost:8081`. |
+| `docker compose --profile kafka -f examples/docker-compose-cp-kafka-cp-schema-registry/cp-kafka-cp-schema-registry-compose.yml up` | Confluent Platform Kafka + Schema Registry with built-in health checks. | Use `--profile kafka` or remove the profile keys. Pair with `node examples/docker-compose-cp-kafka-cp-schema-registry/test-cp-kafka-cp-schema-registry-compose.js`. |
 
 > **Heads-up:** The compose commands only tear down the stack when the Node.js smoke test fails. After a successful run, clean up manually:
 >
@@ -46,9 +47,8 @@ pnpm install
 
 When you prefer ephemeral containers managed directly from Node:
 
-- `node test-containers-with-kafka-native.js`
-- `node test-containers-with-cp-kafka.js`
-- `node test-containers-with-cp-kafka-cp-schema.js`
+- `node examples/test-containers-cp-kafka/test-containers-with-cp-kafka.js`
+- `node examples/test-containers-cp-kafka-co-schema/test-containers-with-cp-kafka-cp-schema.js`
 
 These scripts rely on `@testcontainers/kafka` and `testcontainers` (installed via `pnpm`). The native variant demonstrates the new `await using` disposal syntax, so keep Node 22+ (Node 24 via mise) to avoid syntax errors.
 
