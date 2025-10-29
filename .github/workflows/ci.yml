@@ -11,7 +11,7 @@ jobs:
     name: Run ${{ matrix.script }}
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         script:
           - kafka-native-compose
@@ -21,14 +21,6 @@ jobs:
           - test-containers-with-cp-kafka-cp-schema
 
     steps:
-      - name: Create 10GB swap file
-        run: |
-          sudo fallocate -l 10G /swapfile
-          sudo chmod 600 /swapfile
-          sudo mkswap /swapfile
-          sudo swapon /swapfile
-          sudo swapon --show      
-          
       - name: Checkout
         uses: actions/checkout@v4
 
