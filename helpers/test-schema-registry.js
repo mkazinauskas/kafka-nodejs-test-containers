@@ -25,13 +25,13 @@ async function waitForSchemaRegistry(baseUrl) {
 
       const body = await response.text();
       throw new Error(
-        `Schema Registry healthcheck failed: ${response.status} ${response.statusText} - ${body}`
+        `Schema Registry healthcheck failed: ${response.status} ${response.statusText} - ${body}`,
       );
     } catch (error) {
       if (attempt === MAX_ATTEMPTS) {
         throw new Error(
           `Schema Registry did not become ready after ${MAX_ATTEMPTS} attempts`,
-          { cause: error }
+          { cause: error },
         );
       }
       await sleep(RETRY_DELAY_MS);
@@ -45,7 +45,7 @@ async function fetchJson(url, options = {}) {
   if (!response.ok) {
     const details = await response.text();
     throw new Error(
-      `Schema Registry request failed: ${response.status} ${response.statusText} - ${details}`
+      `Schema Registry request failed: ${response.status} ${response.statusText} - ${details}`,
     );
   }
 
@@ -77,7 +77,7 @@ export default async function testSchemaRegistry(baseUrl) {
 
   if (JSON.stringify(parsedSchema) !== JSON.stringify(SCHEMA)) {
     throw new Error(
-      "Schema fetched from registry does not match the registered schema"
+      "Schema fetched from registry does not match the registered schema",
     );
   }
 
@@ -91,7 +91,7 @@ export default async function testSchemaRegistry(baseUrl) {
     if (error instanceof Error && error.message.includes("40405")) {
       // Ignore missing subject on permanent deletion; some registries return 404 once the subject is soft-deleted.
       console.warn(
-        "Schema Registry permanent delete returned 404; assuming subject was already removed."
+        "Schema Registry permanent delete returned 404; assuming subject was already removed.",
       );
     } else {
       throw error;

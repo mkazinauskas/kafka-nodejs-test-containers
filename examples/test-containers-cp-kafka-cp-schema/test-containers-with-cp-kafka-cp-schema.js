@@ -19,7 +19,7 @@ const kafkaContainer = await new KafkaContainer("confluentinc/cp-kafka:8.1.0")
   .start();
 
 const schemaRegistryContainer = await new GenericContainer(
-  "confluentinc/cp-schema-registry:8.1.0"
+  "confluentinc/cp-schema-registry:8.1.0",
 )
   .withNetwork(network)
   .withNetworkAliases("schema-registry")
@@ -40,6 +40,6 @@ await testBroker([
 
 await testSchemaRegistry(
   `http://${schemaRegistryContainer.getHost()}:${schemaRegistryContainer.getMappedPort(
-    8081
-  )}`
+    8081,
+  )}`,
 );

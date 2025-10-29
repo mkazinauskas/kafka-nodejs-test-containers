@@ -42,13 +42,13 @@ jobs:
 
       - name: Run ${{ matrix.script }}
         env:
-          TESTCONTAINERS_RYUK_DISABLED: 'true'
-          TESTCONTAINERS_CHECKS_DISABLE: 'true'
+          TESTCONTAINERS_RYUK_DISABLED: "true"
+          TESTCONTAINERS_CHECKS_DISABLE: "true"
         run: pnpm run ${{ matrix.script }}
 
       - name: Show ${{ matrix.script }} logs
         if: failure()
         env:
-          TESTCONTAINERS_RYUK_DISABLED: 'true'
-          TESTCONTAINERS_CHECKS_DISABLE: 'true'
+          TESTCONTAINERS_RYUK_DISABLED: "true"
+          TESTCONTAINERS_CHECKS_DISABLE: "true"
         run: pnpm run ${{ matrix.script }}-logs

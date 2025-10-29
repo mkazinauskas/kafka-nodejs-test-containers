@@ -15,13 +15,16 @@ export default async function testBroker(brokers) {
   const consumer = kafka.consumer({ groupId: GROUP_ID });
   await consumer.connect();
 
-  await producer.send({ topic: TOPIC_NAME, messages: [{ value: TEST_MESSAGE }] });
+  await producer.send({
+    topic: TOPIC_NAME,
+    messages: [{ value: TEST_MESSAGE }],
+  });
   await consumer.subscribe({ topic: TOPIC_NAME, fromBeginning: true });
 
   const consumedMessage = await new Promise((resolve) =>
     consumer.run({
       eachMessage: async ({ message }) => resolve(message.value?.toString()),
-    })
+    }),
   );
 
   if (consumedMessage !== TEST_MESSAGE) {

@@ -4,21 +4,17 @@
   "description": "",
   "type": "module",
   "scripts": {
+    "format": "prettier --write .",
     "test-containers-with-cp-kafka": "node examples/test-containers-cp-kafka/test-containers-with-cp-kafka.js",
     "test-containers-with-cp-kafka-logs": "pnpm -v",
-
     "test-containers-with-cp-kafka-cp-schema": "node examples/test-containers-cp-kafka-cp-schema/test-containers-with-cp-kafka-cp-schema.js",
     "test-containers-with-cp-kafka-cp-schema-logs": "pnpm -v",
-
     "kafka-native-compose": "docker compose -f examples/docker-compose-kafka-native/kafka-native-compose.yml up -d && node examples/docker-compose-kafka-native/test-kafka-native-compose.js && docker compose -f examples/docker-compose-kafka-native/kafka-native-compose.yml down",
     "kafka-native-compose-logs": "docker compose -f examples/docker-compose-kafka-native/kafka-native-compose.yml logs --tail=100",
-
     "kafka-native-schema-registry-compose": "docker compose -f examples/docker-compose-kafka-native-cp-scehma-registry/kafka-native-cp-schema-registry-compose.yml up -d && node examples/docker-compose-kafka-native-cp-scehma-registry/test-kafka-native-cp-schema-registry-compose.js && docker compose -f examples/docker-compose-kafka-native-cp-scehma-registry/kafka-native-cp-schema-registry-compose.yml down",
     "kafka-native-schema-registry-compose-logs": "docker compose -f examples/docker-compose-kafka-native-cp-scehma-registry/kafka-native-cp-schema-registry-compose.yml logs --tail=100",
-
     "cp-kafka-cp-schema-registry-compose": "docker compose -f examples/docker-compose-cp-kafka-cp-schema-registry/cp-kafka-cp-schema-registry-compose.yml up -d && node examples/docker-compose-cp-kafka-cp-schema-registry/test-cp-kafka-cp-schema-registry-compose.js && docker compose -f examples/docker-compose-cp-kafka-cp-schema-registry/cp-kafka-cp-schema-registry-compose.yml down",
     "cp-kafka-cp-schema-registry-compose-logs": "docker compose -f examples/docker-compose-cp-kafka-cp-schema-registry/cp-kafka-cp-schema-registry-compose.yml logs --tail=100",
-        
     "test": "pnpm kafka-native-compose && pnpm kafka-native-schema-registry-compose && pnpm cp-kafka-cp-schema-registry-compose && pnpm test-containers-with-cp-kafka && pnpm test-containers-with-cp-kafka-cp-schema"
   },
   "keywords": [],
@@ -31,6 +27,7 @@
   "dependencies": {
     "@testcontainers/kafka": "^11.7.2",
     "kafkajs": "^2.2.4",
+    "prettier": "^3.6.2",
     "testcontainers": "^11.7.2"
   }
 }

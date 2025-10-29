@@ -31,11 +31,11 @@ pnpm install
 
 ## Docker Compose Scenarios
 
-| Script | What it does | Notes |
-| --- | --- | --- |
-| `pnpm kafka-native-compose` | Spins up `examples/docker-compose-kafka-native/kafka-native-compose.yml`, runs the smoke test, and always tears the stack down. | Broker exposed on `localhost:9092`. |
-| `pnpm kafka-native-schema-registry-compose` | Runs `examples/docker-compose-kafka-native-cp-scehma-registry/kafka-native-cp-schema-registry.yml` and validates broker + Confluent Schema Registry. | Broker on `localhost:29092`, Schema Registry on `localhost:8081`; `_schemas` topic replication factor forced to `1` so the Confluent registry starts cleanly on single-broker runners. |
-| `docker compose --profile kafka -f examples/docker-compose-cp-kafka-cp-schema-registry/cp-kafka-cp-schema-registry-compose.yml up` | Confluent Platform Kafka + Schema Registry with built-in health checks. | Use `--profile kafka` or remove the profile keys. Pair with `node examples/docker-compose-cp-kafka-cp-schema-registry/test-cp-kafka-cp-schema-registry-compose.js`. |
+| Script                                                                                                                             | What it does                                                                                                                                         | Notes                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm kafka-native-compose`                                                                                                        | Spins up `examples/docker-compose-kafka-native/kafka-native-compose.yml`, runs the smoke test, and always tears the stack down.                      | Broker exposed on `localhost:9092`.                                                                                                                                                    |
+| `pnpm kafka-native-schema-registry-compose`                                                                                        | Runs `examples/docker-compose-kafka-native-cp-scehma-registry/kafka-native-cp-schema-registry.yml` and validates broker + Confluent Schema Registry. | Broker on `localhost:29092`, Schema Registry on `localhost:8081`; `_schemas` topic replication factor forced to `1` so the Confluent registry starts cleanly on single-broker runners. |
+| `docker compose --profile kafka -f examples/docker-compose-cp-kafka-cp-schema-registry/cp-kafka-cp-schema-registry-compose.yml up` | Confluent Platform Kafka + Schema Registry with built-in health checks.                                                                              | Use `--profile kafka` or remove the profile keys. Pair with `node examples/docker-compose-cp-kafka-cp-schema-registry/test-cp-kafka-cp-schema-registry-compose.js`.                    |
 
 > **Heads-up:** The compose commands only tear down the stack when the Node.js smoke test fails. After a successful run, clean up manually:
 >
@@ -54,7 +54,7 @@ These scripts rely on `@testcontainers/kafka` and `testcontainers` (installed vi
 
 ## Troubleshooting
 
-- **Schema registry timeouts** – Ensure the registry container can resolve the broker host (`broker` inside the compose network). Use `docker compose … logs schema-registry` to verify Karapace or Confluent can reach Kafka.
+- **Schema registry timeouts** – Ensure the registry container can resolve the broker host (`broker` inside the compose network). The Confluent stack sets `_schemas` replication factor to `1` for single-broker environments; raise it if you scale out brokers. Use `docker compose … logs schema-registry` to verify Karapace or Confluent can reach Kafka.
 - **Port conflicts** – All scenarios expose ports `9092`, `29092`, and `8081`. Stop other services or adjust the compose files before running.
 - **Unterminated compose stacks** – Run `docker compose -f <file> down -v` to remove leftover containers and volumes.
 
@@ -69,7 +69,6 @@ Pull requests and pushes to `main` trigger the `CI` GitHub Actions workflow (`.g
 ## Next Steps
 
 - Extend the helpers with additional assertions (e.g., compatibility settings, tombstone handling).
-- Integrate the scripts into CI with `pnpm exec`.
 - Add language bindings other than KafkaJS if you need multi-runtime coverage.
 
 Happy testing!
